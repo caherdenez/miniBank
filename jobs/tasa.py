@@ -24,13 +24,21 @@ tree = html.fromstring(response.content)
 tasa = tree.xpath(
     '/html/body/div[3]/div[5]/div[1]/div/div/div[2]/div/div/div[2]/span[2]/text()')
 # Tasa de usura
-print(tasa)
+print(float(tasa[0]))
+# Tasa de usura desde BS4
 
+data = bs4(response.text, 'html.parser')
+tasa = data.findAll('span', {"class": 'numero'})
+print(tasa[0].text)
 # IBR
 
 response = get('{}{}'.format(URL, 'ibr.html'))
-tree = html.fromstring(response.content)
-# f = tree.xpath('//span[@class="indicador_numero"]')
-tasa = tree.xpath()
+data = bs4(response.text, 'html.parser')
+tasa = data.findAll('span', {"class": 'indicador_numero'})
 # Tasa IBR
-print(tasa)
+'''
+la tasa IBR del dia es la 1
+'''
+d = tasa[0].text
+d = d.replace(' ', '').replace('%', '')
+print(float(d))
